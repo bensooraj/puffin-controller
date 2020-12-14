@@ -1,3 +1,7 @@
 domain: bensooraj.com
 repo: github.com/bensooraj/puffin-controller
+resources:
+- group: birds
+  kind: Puffin
+  version: v1beta1
 version: "2"

@@ -1,0 +1,24 @@
+# permissions for end users to edit puffins.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: puffin-editor-role
+rules:
+- apiGroups:
+  - birds.bensooraj.com
+  resources:
+  - puffins
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - birds.bensooraj.com
+  resources:
+  - puffins/status
+  verbs:
+  - get

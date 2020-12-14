@@ -1,0 +1,20 @@
+# permissions for end users to view puffins.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: puffin-viewer-role
+rules:
+- apiGroups:
+  - birds.bensooraj.com
+  resources:
+  - puffins
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - birds.bensooraj.com
+  resources:
+  - puffins/status
+  verbs:
+  - get
