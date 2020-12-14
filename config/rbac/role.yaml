@@ -1,0 +1,28 @@
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- apiGroups:
+  - birds.bensooraj.com
+  resources:
+  - puffins
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - birds.bensooraj.com
+  resources:
+  - puffins/status
+  verbs:
+  - get
+  - patch
+  - update

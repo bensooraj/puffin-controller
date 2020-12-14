@@ -18,3 +18,9 @@ go fmt ./...
 go vet ./...
 go build -o bin/manager main.go
 ```
+
+
+
+
+Resource:
+1. https://insujang.github.io/2020-02-13/programming-kubernetes-crd/

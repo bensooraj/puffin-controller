@@ -32,6 +32,9 @@ type PuffinReconciler struct {
 	client.Client
 	Log    logr.Logger
 	Scheme *runtime.Scheme
+
+	// My changes
+	Logged bool
 }
 
 // +kubebuilder:rbac:groups=birds.bensooraj.com,resources=puffins,verbs=get;list;watch;create;update;patch;delete
@@ -39,7 +42,12 @@ type PuffinReconciler struct {
 
 func (r *PuffinReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	_ = context.Background()
-	_ = r.Log.WithValues("puffin", req.NamespacedName)
+	log := r.Log.WithValues("puffin", req.NamespacedName)
+
+	if !r.Logged {
+		log.Info("Setting logged to true")
+		r.Logged = true
+	}
 
 	// your logic here
 
