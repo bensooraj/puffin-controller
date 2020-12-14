@@ -34,7 +34,7 @@ spec:
           description: PuffinSpec defines the desired state of Puffin
           properties:
             color:
-              description: Foo is an example field of Puffin. Edit Puffin_types.go
+              description: Color is an example field of Puffin. Edit Puffin_types.go
                 to remove/update
               type: string
           type: object
