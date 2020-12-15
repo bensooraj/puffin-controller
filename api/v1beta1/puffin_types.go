@@ -23,6 +23,17 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
+// ColorPhase determines whether a puffin has been assigned a color or not!
+type ColorPhase string
+
+const (
+	// ColorPhasePending states that the puffin is yet to be colored
+	ColorPhasePending ColorPhase = "PENDING"
+
+	// ColorPhaseColored states that the puffin has been colored
+	ColorPhaseColored ColorPhase = "COLORED"
+)
+
 // PuffinSpec defines the desired state of Puffin
 type PuffinSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
@@ -36,7 +47,12 @@ type PuffinSpec struct {
 type PuffinStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Message string `json:"message,omitempty"`
+
+	// Specifies the puffin's color status.
+	// Valid values are:
+	// - "PENDING" (default): The puffin is yet to be assigned a color;
+	// - "COLORED": The puffin has been assigned a color;
+	Message ColorPhase `json:"message,omitempty"`
 }
 
 // +kubebuilder:object:root=true

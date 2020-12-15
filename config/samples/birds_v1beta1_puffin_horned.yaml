@@ -1,6 +1,6 @@
 apiVersion: birds.bensooraj.com/v1beta1
 kind: Puffin
 metadata:
-  name: tufted-puffin
+  name: horned-puffin
 spec:
-  color: red
+  color: orange

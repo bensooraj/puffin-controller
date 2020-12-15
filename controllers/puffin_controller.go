@@ -18,8 +18,10 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-logr/logr"
+	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -41,7 +43,8 @@ type PuffinReconciler struct {
 // +kubebuilder:rbac:groups=birds.bensooraj.com,resources=puffins/status,verbs=get;update;patch
 
 func (r *PuffinReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	_ = context.Background()
+	var err error
+	ctx := context.Background()
 	log := r.Log.WithValues("puffin", req.NamespacedName)
 
 	if !r.Logged {
@@ -50,6 +53,39 @@ func (r *PuffinReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	// your logic here
+	puffin := birdsv1beta1.Puffin{}
+	err = r.Get(ctx, req.NamespacedName, &puffin)
+	if err != nil {
+		if errors.IsNotFound(err) {
+			// Request object not found, could have been deleted after reconcile request - return and don't requeue:
+			return ctrl.Result{}, nil
+		}
+		// Error reading the object - requeue the request:
+		return ctrl.Result{}, err
+	}
+
+	if puffin.Status.Message == "" {
+		puffin.Status.Message = birdsv1beta1.ColorPhasePending
+	}
+
+	switch puffin.Status.Message {
+	case birdsv1beta1.ColorPhasePending:
+		log.Info(fmt.Sprintf("[PENDING] %s will be assigned a color shortly!\n", puffin.Name))
+		// Assign the color
+		puffin.Status.Message = birdsv1beta1.ColorPhaseColored
+	case birdsv1beta1.ColorPhaseColored:
+		log.Info(fmt.Sprintf("[COLORED] %s is assigned the color %s!\n", puffin.Name, puffin.Spec.Color))
+		return ctrl.Result{}, nil
+	default:
+		log.Info(fmt.Sprintf("[NOP] %s has nothing to do!\n", puffin.Name))
+		return ctrl.Result{}, nil
+	}
+
+	// Update the Puffinf instance, setting the status to the respective phase:
+	err = r.Status().Update(ctx, &puffin, &client.UpdateOptions{})
+	if err != nil {
+		return ctrl.Result{}, err
+	}
 
 	return ctrl.Result{}, nil
 }
