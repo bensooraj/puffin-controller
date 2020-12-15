@@ -1,5 +1,7 @@
 Inspired from TGI Kubernetes (Episode 40) hosted by Kris Nóva (@kris-nova). The original code can be found [here](https://github.com/vmware-tanzu/tgik/tree/master/episodes/040/live).
 
+### Basic setup:
+
 ```sh
 # initialize!
 $ kubebuilder init --domain bensooraj.com
@@ -21,7 +23,7 @@ go vet ./...
 go build -o bin/manager main.go
 ```
 
-Install the CRDs into the cluster:
+### Install the CRDs into the cluster:
 
 ```sh
 $ make install
@@ -63,28 +65,30 @@ go run ./main.go
 2020-12-15T13:37:52.868+0530	DEBUG	controller-runtime.controller	Successfully Reconciled	{"controller": "puffin", "request": "default/horned-puffin"}
 ```
 
-Install Instances of Custom Resources
+### Install instances of the Custom Resources
 
 ```sh
 $ kubectl apply -f config/samples/
 ```
 
-Cleanup
+### Cleanup
 
 ```sh
 $ make uninstall
 ```
 
+### Resource:
+
+1. https://insujang.github.io/2020-02-13/programming-kubernetes-crd/
+
+### Random note to self:
+
 https://github.com/kubernetes-sigs/kubebuilder/issues/806
 
 ```go
-    // Watch ReplicaSets and enqueue ReplicaSet object key
-	if err := c.Watch(&source.Kind{Type: &appsv1.ReplicaSet{}}, &handler.EnqueueRequestForObject{}); err != nil {
-		entryLog.Error(err, "unable to watch ReplicaSets")
-		os.Exit(1)
-	}
+// Watch ReplicaSets and enqueue ReplicaSet object key
+if err := c.Watch(&source.Kind{Type: &appsv1.ReplicaSet{}}, &handler.EnqueueRequestForObject{}); err != nil {
+	entryLog.Error(err, "unable to watch ReplicaSets")
+	os.Exit(1)
+}
 ```
-
-Resource:
-
-1. https://insujang.github.io/2020-02-13/programming-kubernetes-crd/
