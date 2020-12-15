@@ -1,3 +1,5 @@
+Inspired from TGI Kubernetes (Episode 40) hosted by Kris Nóva (@kris-nova). The original code can be found [here](https://github.com/vmware-tanzu/tgik/tree/master/episodes/040/live).
+
 ```sh
 # initialize!
 $ kubebuilder init --domain bensooraj.com
