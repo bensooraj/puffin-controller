@@ -5,6 +5,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.2.5
+  creationTimestamp: null
   name: puffins.birds.bensooraj.com
 spec:
   group: birds.bensooraj.com
@@ -42,9 +43,9 @@ spec:
           description: PuffinStatus defines the observed state of Puffin
           properties:
             message:
-              description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
-                of cluster Important: Run "make" to regenerate code after modifying
-                this file'
+              description: 'Specifies the puffin''s color status. Valid values are:
+                - "PENDING" (default): The puffin is yet to be assigned a color; -
+                "COLORED": The puffin has been assigned a color;'
               type: string
           type: object
       type: object

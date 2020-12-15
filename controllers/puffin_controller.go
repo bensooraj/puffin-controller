@@ -53,8 +53,8 @@ func (r *PuffinReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	// your logic here
-	puffin := birdsv1beta1.Puffin{}
-	err = r.Get(ctx, req.NamespacedName, &puffin)
+	puffin := &birdsv1beta1.Puffin{}
+	err = r.Get(ctx, req.NamespacedName, puffin)
 	if err != nil {
 		if errors.IsNotFound(err) {
 			// Request object not found, could have been deleted after reconcile request - return and don't requeue:
@@ -82,8 +82,10 @@ func (r *PuffinReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	// Update the Puffinf instance, setting the status to the respective phase:
-	err = r.Status().Update(ctx, &puffin, &client.UpdateOptions{})
+	err = r.Update(ctx, puffin)
+	// err = r.Status().Update(ctx, puffin)
 	if err != nil {
+		log.Error(err, "Error updating the status")
 		return ctrl.Result{}, err
 	}
 
